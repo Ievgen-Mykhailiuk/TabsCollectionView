@@ -7,12 +7,11 @@
 
 import UIKit
 
-class TabCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TabCollectionViewCell"
+final class TabsCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Outlets
-    @IBOutlet weak var selectionIndicatorView: UIView!
-    @IBOutlet weak var tabTitleLabel: UILabel!
+    @IBOutlet private weak var selectionIndicatorView: UIView!
+    @IBOutlet private weak var tabTitleLabel: UILabel!
     
     //MARK: - Lyfe Cycle
     override func layoutSubviews() {
@@ -21,7 +20,7 @@ class TabCollectionViewCell: UICollectionViewCell {
         setupIndicatorConstraints()
     }
     
-    //MARK: - Private methods
+    //MARK: - Layout methods
     private func setupTabConstraints() {
         tabTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -32,6 +31,7 @@ class TabCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupIndicatorConstraints() {
+        selectionIndicatorView.makeRounded()
         selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             selectionIndicatorView.widthAnchor.constraint(equalTo: tabTitleLabel.widthAnchor),
@@ -39,13 +39,12 @@ class TabCollectionViewCell: UICollectionViewCell {
             selectionIndicatorView.topAnchor.constraint(equalTo: tabTitleLabel.bottomAnchor, constant: 5),
             selectionIndicatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        selectionIndicatorView.makeRounded()
     }
     
-    //MARK: - Methods
-    func configure(name: String) {
+    //MARK: - Configuration methods
+    func configure(with tabTitle: String) {
         selectionIndicatorView.isHidden = true
-        tabTitleLabel.text = name
+        tabTitleLabel.text = tabTitle
     }
     
     func isSelected() {

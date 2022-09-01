@@ -8,17 +8,18 @@
 import UIKit
 
 final class TabsCollectionViewController: UIViewController {
+    
     //MARK: - Properties
-    private var dataSource = ["Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley" ]
+    private let dataSource = ["Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley"]
     private var selectedTab: Int? {
         didSet {
             tabsCollectionView.reloadData()
         }
     }
-    private let cellIdentifier = String(describing: TabCollectionViewCell.self)
-    private let spacing: CGFloat = 20
+    private let cellIdentifier = String(describing: TabsCollectionViewCell.self)
+    private let spacingValue: CGFloat = 20
     private let font: UIFont = .systemFont(ofSize: 17)
-    private let safeAreaMargin: CGFloat = 20
+    private let paddingsValue: CGFloat = 20
     private lazy var tabsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -59,12 +60,13 @@ final class TabsCollectionViewController: UIViewController {
         ])
     }
     
+    //MARK: - Size calculation methods
     private func notScrollableTabSize() -> CGSize {
-        let widthToCalculate = view.frame.width - safeAreaMargin
-        let multiplier = dataSource.count - 1
-        let totalspacing = CGFloat(multiplier) * spacing
+        let widthToCalculate = view.frame.width - paddingsValue
+        let spacingCount = dataSource.count - 1
+        let totalSpacingValue = CGFloat(spacingCount) * spacingValue
         let height = tabsCollectionView.frame.height
-        let width = (widthToCalculate - totalspacing)/CGFloat(dataSource.count)
+        let width = (widthToCalculate - totalSpacingValue)/CGFloat(dataSource.count)
         let cellSize = CGSize(width: width, height: height)
         return cellSize
     }
@@ -95,9 +97,10 @@ extension TabsCollectionViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCollectionViewCell.identifier, for: indexPath) as! TabCollectionViewCell
-        let model = dataSource[indexPath.row]
-        cell.configure(name: model)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier,
+                                                      for: indexPath) as! TabsCollectionViewCell
+        let tabTitle = dataSource[indexPath.row]
+        cell.configure(with: tabTitle)
         if indexPath.row == selectedTab {
             cell.isSelected()
         } else {
@@ -122,8 +125,6 @@ extension TabsCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
+        return spacingValue
     }
 }
-
-
