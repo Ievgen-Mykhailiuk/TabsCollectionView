@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FC15AB1828BE3B5300BD39AC /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15AB1728BE3B5300BD39AC /* String+Extension.swift */; };
 		FC15AB1A28BE3B8400BD39AC /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15AB1928BE3B8400BD39AC /* UIView+Extension.swift */; };
+		FC15AB4528C13D6D00BD39AC /* TabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15AB4428C13D6D00BD39AC /* TabsView.swift */; };
 		FC8D4E7F28B7C10800225EF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8D4E7E28B7C10800225EF2 /* AppDelegate.swift */; };
 		FC8D4E8128B7C10800225EF2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8D4E8028B7C10800225EF2 /* SceneDelegate.swift */; };
 		FC8D4E8328B7C10800225EF2 /* TabsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8D4E8228B7C10800225EF2 /* TabsCollectionViewController.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		FC15AB1728BE3B5300BD39AC /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		FC15AB1928BE3B8400BD39AC /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		FC15AB4428C13D6D00BD39AC /* TabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsView.swift; sourceTree = "<group>"; };
 		FC8D4E7B28B7C10800225EF2 /* TabsCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabsCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC8D4E7E28B7C10800225EF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC8D4E8028B7C10800225EF2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				FC8D4E8C28B7C10A00225EF2 /* Info.plist */,
 				FC8D4E9228B7C18D00225EF2 /* TabsCollectionViewCell.swift */,
 				FC8D4E9328B7C18D00225EF2 /* TabsCollectionViewCell.xib */,
+				FC15AB4428C13D6D00BD39AC /* TabsView.swift */,
 			);
 			path = TabsCollectionView;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 				FC15AB1A28BE3B8400BD39AC /* UIView+Extension.swift in Sources */,
 				FC8D4E9428B7C18D00225EF2 /* TabsCollectionViewCell.swift in Sources */,
 				FC8D4E8328B7C10800225EF2 /* TabsCollectionViewController.swift in Sources */,
+				FC15AB4528C13D6D00BD39AC /* TabsView.swift in Sources */,
 				FC8D4E7F28B7C10800225EF2 /* AppDelegate.swift in Sources */,
 				FC15AB1828BE3B5300BD39AC /* String+Extension.swift in Sources */,
 				FC8D4E8128B7C10800225EF2 /* SceneDelegate.swift in Sources */,

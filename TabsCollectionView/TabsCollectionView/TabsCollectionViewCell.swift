@@ -10,14 +10,12 @@ import UIKit
 final class TabsCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Outlets
-    @IBOutlet private weak var selectionIndicatorView: UIView!
     @IBOutlet private weak var tabTitleLabel: UILabel!
     
     //MARK: - Lyfe Cycle
     override func layoutSubviews() {
         super.layoutSubviews()
         setupTabConstraints()
-        setupIndicatorConstraints()
     }
     
     //MARK: - Layout methods
@@ -30,31 +28,18 @@ final class TabsCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func setupIndicatorConstraints() {
-        selectionIndicatorView.makeRounded()
-        selectionIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            selectionIndicatorView.widthAnchor.constraint(equalTo: tabTitleLabel.widthAnchor),
-            selectionIndicatorView.heightAnchor.constraint(equalToConstant: 5),
-            selectionIndicatorView.topAnchor.constraint(equalTo: tabTitleLabel.bottomAnchor, constant: 5),
-            selectionIndicatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+    //MARK: - Private method
+    private func setState(isSelected: Bool) {
+        if isSelected {
+            tabTitleLabel.textColor = .blue
+        } else {
+            tabTitleLabel.textColor = .black
+        }
     }
     
-    //MARK: - Configuration methods
-    func configure(with tabTitle: String) {
-        selectionIndicatorView.isHidden = true
+    //MARK: - Configuration method
+    func configure(with tabTitle: String, isSelected: Bool) {
         tabTitleLabel.text = tabTitle
-    }
-    
-    func isSelected() {
-        selectionIndicatorView.isHidden = false
-        tabTitleLabel.textColor = .blue
-        selectionIndicatorView.backgroundColor = .blue
-    }
-    
-    func isDeselected() {
-        selectionIndicatorView.isHidden = true
-        tabTitleLabel.textColor = .black
+        setState(isSelected: isSelected)
     }
 }
