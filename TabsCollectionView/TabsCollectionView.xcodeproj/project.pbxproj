@@ -17,7 +17,6 @@
 		FC8D4E8828B7C10A00225EF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC8D4E8728B7C10A00225EF2 /* Assets.xcassets */; };
 		FC8D4E8B28B7C10A00225EF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8D4E8928B7C10A00225EF2 /* LaunchScreen.storyboard */; };
 		FC8D4E9428B7C18D00225EF2 /* TabsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC8D4E9228B7C18D00225EF2 /* TabsCollectionViewCell.swift */; };
-		FC8D4E9528B7C18D00225EF2 /* TabsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC8D4E9328B7C18D00225EF2 /* TabsCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		FC8D4E8A28B7C10A00225EF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC8D4E8C28B7C10A00225EF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC8D4E9228B7C18D00225EF2 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
-		FC8D4E9328B7C18D00225EF2 /* TabsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabsCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +82,6 @@
 				FC8D4E8928B7C10A00225EF2 /* LaunchScreen.storyboard */,
 				FC8D4E8C28B7C10A00225EF2 /* Info.plist */,
 				FC8D4E9228B7C18D00225EF2 /* TabsCollectionViewCell.swift */,
-				FC8D4E9328B7C18D00225EF2 /* TabsCollectionViewCell.xib */,
 				FC15AB4428C13D6D00BD39AC /* TabsView.swift */,
 			);
 			path = TabsCollectionView;
@@ -148,7 +145,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC8D4E9528B7C18D00225EF2 /* TabsCollectionViewCell.xib in Resources */,
 				FC8D4E8B28B7C10A00225EF2 /* LaunchScreen.storyboard in Resources */,
 				FC8D4E8828B7C10A00225EF2 /* Assets.xcassets in Resources */,
 				FC8D4E8628B7C10800225EF2 /* Main.storyboard in Resources */,

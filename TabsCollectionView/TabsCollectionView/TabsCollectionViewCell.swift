@@ -9,17 +9,28 @@ import UIKit
 
 final class TabsCollectionViewCell: UICollectionViewCell {
     
-    //MARK: - Outlets
-    @IBOutlet private weak var tabTitleLabel: UILabel!
+    //MARK: - Properties
+    private lazy var tabTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = .black
+        label.textAlignment = .center
+        return label
+    }()
     
     //MARK: - Lyfe Cycle
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setupTabConstraints()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupTabTitleLabel()
     }
     
-    //MARK: - Layout methods
-    private func setupTabConstraints() {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Private methods
+    private func setupTabTitleLabel() {
+        contentView.addSubview(tabTitleLabel)
         tabTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tabTitleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -28,7 +39,6 @@ final class TabsCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    //MARK: - Private method
     private func setState(isSelected: Bool) {
         if isSelected {
             tabTitleLabel.textColor = .blue

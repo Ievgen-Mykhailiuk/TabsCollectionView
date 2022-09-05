@@ -7,8 +7,9 @@
 
 import UIKit
 
-class TabsView: UIView {
+final class TabsView: UIView {
     
+    //MARK: - Properties
     private let dataSource: [String]
     private let cellIdentifier = String(describing: TabsCollectionViewCell.self)
     private let spacingValue: CGFloat = 20
@@ -16,7 +17,7 @@ class TabsView: UIView {
     private let paddingsValue: CGFloat = 20
     private let cellHeight: CGFloat = 50
     private let indicatorHeight: CGFloat = 5
-    private var selectedTab = 0 {
+    private var selectedTab: Int = .zero {
         didSet {
             tabsCollectionView.reloadData()
         }
@@ -35,6 +36,7 @@ class TabsView: UIView {
         return view
     }()
     
+    //MARK: - Life Cycle
     init(dataSource: [String]) {
         self.dataSource = dataSource
         super.init(frame: .zero)
@@ -50,8 +52,9 @@ class TabsView: UIView {
         updateIndicatorPosition(index: .init(row: selectedTab, section: 0))
     }
     
+    //MARK: - Private methods
     private func setupTabsCollectionView() {
-        tabsCollectionView.register(UINib(nibName: cellIdentifier, bundle: nil),
+        tabsCollectionView.register(TabsCollectionViewCell.self,
                                     forCellWithReuseIdentifier: cellIdentifier)
         tabsCollectionView.showsHorizontalScrollIndicator = false
         tabsCollectionView.delegate = self
@@ -97,7 +100,16 @@ class TabsView: UIView {
         }
         return cellSize
     }
+    
+    private func selectTab(at indexPath: IndexPath) {
+        selectedTab = indexPath.row
+        updateIndicatorPosition(index: indexPath)
+        tabsCollectionView.scrollToItem(at: indexPath,
+                                        at: .centeredHorizontally,
+                                        animated: true)
+    }
 }
+
 //MARK: - UICollectionViewDataSource
 extension TabsView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,15 +128,15 @@ extension TabsView: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension TabsView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedTab = indexPath.row
-        updateIndicatorPosition(index: indexPath)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        selectTab(at: indexPath)
     }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension TabsView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let tabTitle = dataSource[indexPath.row]
         return calculateTabSize(with: tabTitle)
     }
@@ -133,5 +145,3 @@ extension TabsView: UICollectionViewDelegateFlowLayout {
         return spacingValue
     }
 }
-
-
