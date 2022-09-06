@@ -11,7 +11,6 @@ final class TabsView: UIView {
     
     //MARK: - Properties
     private let dataSource: [String]
-    private let cellIdentifier = String(describing: TabsCollectionViewCell.self)
     private let spacingValue: CGFloat = 20
     private let font: UIFont = .systemFont(ofSize: 17)
     private let paddingsValue: CGFloat = 20
@@ -19,10 +18,10 @@ final class TabsView: UIView {
     private let indicatorHeight: CGFloat = 5
     private var selectedTab: Int = .zero {
         didSet {
-            tabsCollectionView.reloadData()
+            collectionView.reloadData()
         }
     }
-    private lazy var tabsCollectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero,
@@ -30,7 +29,7 @@ final class TabsView: UIView {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    private lazy var selectionIndicatorView: UIView = {
+    private lazy var indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
         return view
@@ -40,7 +39,7 @@ final class TabsView: UIView {
     init(dataSource: [String]) {
         self.dataSource = dataSource
         super.init(frame: .zero)
-        setupTabsCollectionView()
+        setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
@@ -53,42 +52,41 @@ final class TabsView: UIView {
     }
     
     //MARK: - Private methods
-    private func setupTabsCollectionView() {
-        tabsCollectionView.register(TabsCollectionViewCell.self,
-                                    forCellWithReuseIdentifier: cellIdentifier)
-        tabsCollectionView.showsHorizontalScrollIndicator = false
-        tabsCollectionView.delegate = self
-        tabsCollectionView.dataSource = self
-        tabsCollectionView.addSubview(selectionIndicatorView)
-        addSubview(tabsCollectionView)
-        setupTabsCollectionViewConstraints()
+    private func setupCollectionView() {
+        TabsCollectionViewCell.registerClass(in: self.collectionView)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.addSubview(indicatorView)
+        addSubview(collectionView)
+        setupCollectionViewConstraints()
     }
     
-    private func setupTabsCollectionViewConstraints() {
-        tabsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupCollectionViewConstraints() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tabsCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
-            tabsCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
-            tabsCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
-            tabsCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            collectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
+            collectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
+            collectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
     private func updateIndicatorPosition(index: IndexPath) {
-        guard let attributes = tabsCollectionView.layoutAttributesForItem(at: index) else { return }
+        guard let attributes = collectionView.layoutAttributesForItem(at: index) else { return }
         UIView.animate(withDuration: 0.3) {
-            self.selectionIndicatorView.frame = CGRect(x: attributes.frame.origin.x,
-                                                       y: self.tabsCollectionView.frame.size.height - self.indicatorHeight,
+            self.indicatorView.frame = CGRect(x: attributes.frame.origin.x,
+                                                       y: self.collectionView.frame.size.height - self.indicatorHeight,
                                                        width: attributes.size.width,
                                                        height: self.indicatorHeight)
-            self.selectionIndicatorView.makeRounded()
+            self.indicatorView.makeRounded()
         }
     }
     
     private func calculateTabSize(with tabTitle: String) -> CGSize {
         var cellSize = CGSize()
         if dataSource.count <= 3 {
-            tabsCollectionView.isScrollEnabled = false
+            collectionView.isScrollEnabled = false
             let widthToCalculate = self.frame.width - paddingsValue
             let spacingCount = dataSource.count - 1
             let totalSpacingValue = CGFloat(spacingCount) * spacingValue
@@ -104,7 +102,7 @@ final class TabsView: UIView {
     private func selectTab(at indexPath: IndexPath) {
         selectedTab = indexPath.row
         updateIndicatorPosition(index: indexPath)
-        tabsCollectionView.scrollToItem(at: indexPath,
+        collectionView.scrollToItem(at: indexPath,
                                         at: .centeredHorizontally,
                                         animated: true)
     }
@@ -117,10 +115,9 @@ extension TabsView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier,
-                                                      for: indexPath) as! TabsCollectionViewCell
+        let cell: TabsCollectionViewCell = TabsCollectionViewCell.cell(in: collectionView, at: indexPath)
         let tabTitle = dataSource[indexPath.row]
-        cell.configure(with: tabTitle, isSelected: indexPath.row == selectedTab)
+        cell.configure(with: tabTitle, isSelected: selectedTab == indexPath.row)
         return cell
     }
 }

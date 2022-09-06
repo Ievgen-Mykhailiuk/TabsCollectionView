@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TabsCollectionViewCell: UICollectionViewCell {
+final class TabsCollectionViewCell:  BaseCollectionViewCell {
     
     //MARK: - Properties
     private lazy var tabTitleLabel: UILabel = {
