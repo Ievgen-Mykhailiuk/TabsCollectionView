@@ -76,9 +76,9 @@ final class TabsView: UIView {
         guard let attributes = collectionView.layoutAttributesForItem(at: index) else { return }
         UIView.animate(withDuration: 0.3) {
             self.indicatorView.frame = CGRect(x: attributes.frame.origin.x,
-                                                       y: self.collectionView.frame.size.height - self.indicatorHeight,
-                                                       width: attributes.size.width,
-                                                       height: self.indicatorHeight)
+                                              y: self.collectionView.frame.size.height - self.indicatorHeight,
+                                              width: attributes.size.width,
+                                              height: self.indicatorHeight)
             self.indicatorView.makeRounded()
         }
     }
@@ -103,8 +103,8 @@ final class TabsView: UIView {
         selectedTab = indexPath.row
         updateIndicatorPosition(index: indexPath)
         collectionView.scrollToItem(at: indexPath,
-                                        at: .centeredHorizontally,
-                                        animated: true)
+                                    at: .centeredHorizontally,
+                                    animated: true)
     }
 }
 
@@ -138,7 +138,9 @@ extension TabsView: UICollectionViewDelegateFlowLayout {
         return calculateTabSize(with: tabTitle)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return spacingValue
     }
 }
