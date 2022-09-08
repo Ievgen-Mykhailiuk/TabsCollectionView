@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CollectionCellRegistable: AnyObject, CellIdentifying {
+protocol CollectionCellRegistable: CellIdentifying {
     static func registerClass(in collection: UICollectionView)
     static func registerNib(in collection: UICollectionView)
 }

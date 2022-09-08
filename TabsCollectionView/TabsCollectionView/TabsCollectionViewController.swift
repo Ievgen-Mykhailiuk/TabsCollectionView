@@ -9,9 +9,6 @@ import UIKit
 
 final class TabsCollectionViewController: UIViewController {
     
-    //MARK: - Properties
-    private let dataSource = ["Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley", "Bimmer", "Benz", "Bentley"]
-    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,15 +17,16 @@ final class TabsCollectionViewController: UIViewController {
     
     //MARK: - Private method
     private func setupTabsView () {
-        let tabsView = TabsView(dataSource: dataSource)
+        let frame = CGRect(x: .zero,
+                           y: self.view.center.y,
+                           width: self.view.frame.width,
+                           height: 60)
+        let tabsView = TabsView(dataSource: ["Bimmer", "Benz", "Bentley", "Bimmer", "Benz",
+                                             "Bentley", "Bimmer", "Benz", "Bentley"],
+                                with: frame,
+                                selectedStateColor: .blue,
+                                unselectedStateColor: .black)
         view.addSubview(tabsView)
-        tabsView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tabsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabsView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            tabsView.heightAnchor.constraint(equalToConstant: 60)
-        ])
     }
 }
 

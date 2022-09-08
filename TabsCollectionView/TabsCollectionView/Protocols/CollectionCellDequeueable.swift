@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CollectionCellDequeueable: AnyObject, CellIdentifying {
+protocol CollectionCellDequeueable: CellIdentifying {
     static func cell<T: BaseCollectionViewCell>(in collection: UICollectionView,
                                                 at indexPath: IndexPath) -> T
 }

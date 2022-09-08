@@ -11,12 +11,17 @@ final class TabsView: UIView {
     
     //MARK: - Properties
     private let dataSource: [String]
+    private let selectedStateColor: UIColor
+    private let unselectedStateColor: UIColor
     private let spacingValue: CGFloat = 20
     private let font: UIFont = .systemFont(ofSize: 17)
-    private let paddingsValue: CGFloat = 20
+    private let collectionViewPaddings: CGFloat = 20
     private let cellHeight: CGFloat = 50
+    private let cellInset: CGFloat = 10
     private let indicatorHeight: CGFloat = 5
-    private var selectedTab: Int = .zero {
+    private let maxTabsCountForEqualWidth = 3
+    private let animationDuration = 0.2
+    private var selectedTabIndex: Int = .zero {
         didSet {
             collectionView.reloadData()
         }
@@ -30,15 +35,25 @@ final class TabsView: UIView {
         return collectionView
     }()
     private lazy var indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
+        let view = UIView(frame: CGRect(x: .zero,
+                                        y: self.frame.height - self.indicatorHeight,
+                                        width: .zero,
+                                        height: self.indicatorHeight))
+        view.makeRounded()
+        view.backgroundColor = selectedStateColor
         return view
     }()
     
     //MARK: - Life Cycle
-    init(dataSource: [String]) {
+    init(dataSource: [String],
+         with frame: CGRect,
+         selectedStateColor: UIColor,
+         unselectedStateColor: UIColor) {
+        
         self.dataSource = dataSource
-        super.init(frame: .zero)
+        self.selectedStateColor = selectedStateColor
+        self.unselectedStateColor = unselectedStateColor
+        super.init(frame: frame)
         setupCollectionView()
     }
     
@@ -48,15 +63,15 @@ final class TabsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        updateIndicatorPosition(index: .init(row: selectedTab, section: 0))
+        selectTab(at: selectedTabIndex)
     }
     
     //MARK: - Private methods
     private func setupCollectionView() {
-        TabsCollectionViewCell.registerClass(in: self.collectionView)
-        collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
         collectionView.dataSource = self
+        TabsCollectionViewCell.registerClass(in: self.collectionView)
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.addSubview(indicatorView)
         addSubview(collectionView)
         setupCollectionViewConstraints()
@@ -72,39 +87,35 @@ final class TabsView: UIView {
         ])
     }
     
-    private func updateIndicatorPosition(index: IndexPath) {
-        guard let attributes = collectionView.layoutAttributesForItem(at: index) else { return }
-        UIView.animate(withDuration: 0.3) {
-            self.indicatorView.frame = CGRect(x: attributes.frame.origin.x,
-                                              y: self.collectionView.frame.size.height - self.indicatorHeight,
-                                              width: attributes.size.width,
-                                              height: self.indicatorHeight)
-            self.indicatorView.makeRounded()
+    private func updateIndicatorPosition(at index: Int) {
+        guard let attributes = collectionView.layoutAttributesForItem(at: .init(item: index, section: .zero)) else { return }
+        UIView.animate(withDuration: animationDuration, delay: .zero, options: [.curveLinear]) {
+            self.indicatorView.frame.origin.x = attributes.frame.origin.x
+            self.indicatorView.frame.size.width = attributes.size.width
         }
     }
     
     private func calculateTabSize(with tabTitle: String) -> CGSize {
-        var cellSize = CGSize()
-        if dataSource.count <= 3 {
+        var cellSize: CGSize = .zero
+        if dataSource.count <= maxTabsCountForEqualWidth {
             collectionView.isScrollEnabled = false
-            let widthToCalculate = self.frame.width - paddingsValue
+            let widthToCalculate = self.frame.width - collectionViewPaddings
             let spacingCount = dataSource.count - 1
             let totalSpacingValue = CGFloat(spacingCount) * spacingValue
             let cellWidth = (widthToCalculate - totalSpacingValue)/CGFloat(dataSource.count)
             cellSize = CGSize(width: cellWidth, height: cellHeight)
         } else {
-            let cellWidth = tabTitle.textWidth(usingFont: font) + 10
+            let cellWidth = tabTitle.textWidth(with: font) + cellInset
             cellSize = CGSize(width: cellWidth, height: cellHeight)
         }
         return cellSize
     }
     
-    private func selectTab(at indexPath: IndexPath) {
-        selectedTab = indexPath.row
-        updateIndicatorPosition(index: indexPath)
-        collectionView.scrollToItem(at: indexPath,
+    private func selectTab(at index: Int) {
+        collectionView.scrollToItem(at: .init(item: index, section: .zero),
                                     at: .centeredHorizontally,
                                     animated: true)
+        updateIndicatorPosition(at: index)
     }
 }
 
@@ -115,9 +126,12 @@ extension TabsView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell: TabsCollectionViewCell = TabsCollectionViewCell.cell(in: collectionView, at: indexPath)
-        let tabTitle = dataSource[indexPath.row]
-        cell.configure(with: tabTitle, isSelected: selectedTab == indexPath.row)
+        let cell: TabsCollectionViewCell = .cell(in: collectionView, at: indexPath)
+        let tabTitle = dataSource[indexPath.item]
+        cell.configure(with: tabTitle,
+                       isSelected: selectedTabIndex == indexPath.item,
+                       selectedStateColor: selectedStateColor,
+                       unselectedStateColor: unselectedStateColor)
         return cell
     }
 }
@@ -125,7 +139,8 @@ extension TabsView: UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate
 extension TabsView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectTab(at: indexPath)
+        selectedTabIndex = indexPath.item
+        selectTab(at: indexPath.item)
     }
 }
 
@@ -134,7 +149,7 @@ extension TabsView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tabTitle = dataSource[indexPath.row]
+        let tabTitle = dataSource[indexPath.item]
         return calculateTabSize(with: tabTitle)
     }
     

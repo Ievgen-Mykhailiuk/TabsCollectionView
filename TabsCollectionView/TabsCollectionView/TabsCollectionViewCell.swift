@@ -13,7 +13,6 @@ final class TabsCollectionViewCell:  BaseCollectionViewCell {
     private lazy var tabTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
         label.textAlignment = .center
         return label
     }()
@@ -39,17 +38,20 @@ final class TabsCollectionViewCell:  BaseCollectionViewCell {
         ])
     }
     
-    private func setState(isSelected: Bool) {
-        if isSelected {
-            tabTitleLabel.textColor = .blue
-        } else {
-            tabTitleLabel.textColor = .black
-        }
+    private func setState(isSelected: Bool,
+                          selectedStateColor: UIColor,
+                          unselectedStateColor: UIColor) {
+        tabTitleLabel.textColor = isSelected ? selectedStateColor : unselectedStateColor
     }
     
     //MARK: - Configuration method
-    func configure(with tabTitle: String, isSelected: Bool) {
+    func configure(with tabTitle: String,
+                   isSelected: Bool,
+                   selectedStateColor: UIColor,
+                   unselectedStateColor: UIColor) {
         tabTitleLabel.text = tabTitle
-        setState(isSelected: isSelected)
+        setState(isSelected: isSelected,
+                 selectedStateColor: selectedStateColor,
+                 unselectedStateColor: unselectedStateColor)
     }
 }

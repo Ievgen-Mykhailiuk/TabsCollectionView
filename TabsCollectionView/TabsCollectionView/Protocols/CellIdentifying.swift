@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CellIdentifying {
+protocol CellIdentifying: AnyObject {
     static var cellIdentifier: String { get }
 }
 
