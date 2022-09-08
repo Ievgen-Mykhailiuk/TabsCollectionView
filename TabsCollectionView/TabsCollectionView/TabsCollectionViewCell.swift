@@ -7,9 +7,11 @@
 
 import UIKit
 
-final class TabsCollectionViewCell:  BaseCollectionViewCell {
+final class TabsCollectionViewCell: BaseCollectionViewCell {
     
     //MARK: - Properties
+    private var selectedStateColor: UIColor = .blue
+    private var unselectedStateColor: UIColor = .black
     private lazy var tabTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
@@ -38,9 +40,7 @@ final class TabsCollectionViewCell:  BaseCollectionViewCell {
         ])
     }
     
-    private func setState(isSelected: Bool,
-                          selectedStateColor: UIColor,
-                          unselectedStateColor: UIColor) {
+    private func setState(isSelected: Bool) {
         tabTitleLabel.textColor = isSelected ? selectedStateColor : unselectedStateColor
     }
     
@@ -50,8 +50,8 @@ final class TabsCollectionViewCell:  BaseCollectionViewCell {
                    selectedStateColor: UIColor,
                    unselectedStateColor: UIColor) {
         tabTitleLabel.text = tabTitle
-        setState(isSelected: isSelected,
-                 selectedStateColor: selectedStateColor,
-                 unselectedStateColor: unselectedStateColor)
+        self.selectedStateColor = selectedStateColor
+        self.unselectedStateColor = unselectedStateColor
+        setState(isSelected: isSelected)
     }
 }

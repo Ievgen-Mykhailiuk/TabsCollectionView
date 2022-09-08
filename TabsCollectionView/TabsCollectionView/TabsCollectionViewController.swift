@@ -17,16 +17,18 @@ final class TabsCollectionViewController: UIViewController {
     
     //MARK: - Private method
     private func setupTabsView () {
-        let frame = CGRect(x: .zero,
-                           y: self.view.center.y,
-                           width: self.view.frame.width,
-                           height: 60)
         let tabsView = TabsView(dataSource: ["Bimmer", "Benz", "Bentley", "Bimmer", "Benz",
                                              "Bentley", "Bimmer", "Benz", "Bentley"],
-                                with: frame,
                                 selectedStateColor: .blue,
                                 unselectedStateColor: .black)
         view.addSubview(tabsView)
+        tabsView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tabsView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tabsView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tabsView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tabsView.heightAnchor.constraint(equalToConstant: 60)
+        ])
     }
 }
 

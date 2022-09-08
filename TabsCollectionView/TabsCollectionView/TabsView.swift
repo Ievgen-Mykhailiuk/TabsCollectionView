@@ -15,7 +15,7 @@ final class TabsView: UIView {
     private let unselectedStateColor: UIColor
     private let spacingValue: CGFloat = 20
     private let font: UIFont = .systemFont(ofSize: 17)
-    private let collectionViewPaddings: CGFloat = 20
+    private let collectionViewPadding: CGFloat = 10
     private let cellHeight: CGFloat = 50
     private let cellInset: CGFloat = 10
     private let indicatorHeight: CGFloat = 5
@@ -36,7 +36,7 @@ final class TabsView: UIView {
     }()
     private lazy var indicatorView: UIView = {
         let view = UIView(frame: CGRect(x: .zero,
-                                        y: self.frame.height - self.indicatorHeight,
+                                        y: .zero,
                                         width: .zero,
                                         height: self.indicatorHeight))
         view.makeRounded()
@@ -46,14 +46,13 @@ final class TabsView: UIView {
     
     //MARK: - Life Cycle
     init(dataSource: [String],
-         with frame: CGRect,
          selectedStateColor: UIColor,
          unselectedStateColor: UIColor) {
         
         self.dataSource = dataSource
         self.selectedStateColor = selectedStateColor
         self.unselectedStateColor = unselectedStateColor
-        super.init(frame: frame)
+        super.init(frame: .zero)
         setupCollectionView()
     }
     
@@ -63,6 +62,7 @@ final class TabsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        setIndicatorYCoordinate()
         selectTab(at: selectedTabIndex)
     }
     
@@ -80,8 +80,8 @@ final class TabsView: UIView {
     private func setupCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
-            collectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
+            collectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: collectionViewPadding),
+            collectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -collectionViewPadding),
             collectionView.topAnchor.constraint(equalTo: self.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
@@ -95,11 +95,15 @@ final class TabsView: UIView {
         }
     }
     
+    private func setIndicatorYCoordinate() {
+        indicatorView.frame.origin.y = self.frame.height - indicatorHeight
+    }
+    
     private func calculateTabSize(with tabTitle: String) -> CGSize {
         var cellSize: CGSize = .zero
         if dataSource.count <= maxTabsCountForEqualWidth {
             collectionView.isScrollEnabled = false
-            let widthToCalculate = self.frame.width - collectionViewPaddings
+            let widthToCalculate = self.frame.width - collectionViewPadding * 2
             let spacingCount = dataSource.count - 1
             let totalSpacingValue = CGFloat(spacingCount) * spacingValue
             let cellWidth = (widthToCalculate - totalSpacingValue)/CGFloat(dataSource.count)
