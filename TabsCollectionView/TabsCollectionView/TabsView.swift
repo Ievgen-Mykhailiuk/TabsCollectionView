@@ -62,7 +62,7 @@ final class TabsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setIndicatorYCoordinate()
+        setSelectionIndicatorPosition()
         selectTab(at: selectedTabIndex)
     }
     
@@ -95,7 +95,7 @@ final class TabsView: UIView {
         }
     }
     
-    private func setIndicatorYCoordinate() {
+    private func setSelectionIndicatorPosition() {
         indicatorView.frame.origin.y = self.frame.height - indicatorHeight
     }
     
